@@ -3,6 +3,57 @@ body, html {
     padding: 0;
     height: 100%;
     width: 100%;
+    background-color: #000;
+}
+
+.startScreen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+#startText, #description {
+    color: white;
+    margin-bottom: 20px; /* Add some space between the text and the button */
+}
+
+.startButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    background-color: #222;
+    color: white;
+    transition: background-color 0.3s ease;
+    overflow: hidden;
+    border: 2px solid rgb(0, 150, 0);
+    position: relative; /* Make sure the parent has position: relative */
+}
+
+.startButton::before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: -100%; /* Start outside the button */
+    width: 100%;
+    height: 100%;
+    transition: left 0.3s ease; /* Animate the left property */
+    background-color: rgb(0, 150, 0); /* The fill color */
+    z-index: 1; /* Ensure the pseudo-element is behind the text */
+    pointer-events: none; /* Allow the button to be clickable */
+}
+
+.startButton:hover::before {
+    left: 0; /* Slide in to fill the button */
+}
+
+.startButton span {
+    position: relative; /* Make sure text is above the pseudo-element */
+    z-index: 2;
 }
 
 .leftAnime, .rightAnime {
@@ -16,6 +67,7 @@ body, html {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    opacity: 0;
 }
 
 .leftAnime {
@@ -34,6 +86,10 @@ body, html {
     height: 100%;
     opacity: 0.5;
     object-fit: cover;
+}
+
+#leftImage {
+    transition: opacity 0.5s ease-in-out;
 }
 
 #leftTitle, #rightTitle, #leftScore, #rightScore {
@@ -67,7 +123,7 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px; /* Add some space between text and arrow */
+    gap: 10px;
     transition: background-color 0.3s ease;
     overflow: hidden;
 }
@@ -86,14 +142,15 @@ body, html {
     content: ' ';
     position: absolute;
     top: 0;
-    left: -100%; /* Initially positioned outside the button */
+    left: -100%;
     width: 100%;
     height: 100%;
-    transition: left 0.3s ease; /* Transition only the left property */
+    transition: left 0.3s ease;
+    pointer-events: none; /* Allow the buttons to be clickable */
 }
 
 .guessHigher::before {
-    background-color: rgb(0, 150, 0); /* Initial color of the pseudo-element */
+    background-color: rgb(0, 150, 0);
 }
 
 .guessLower::before {
@@ -101,7 +158,7 @@ body, html {
 }
 
 .guessHigher:hover::before, .guessLower:hover::before {
-    left: 0; /* Slide the pseudo-element into the button on hover */
+    left: 0;
 }
 
 #lowerText, #higherText {
@@ -119,8 +176,6 @@ body, html {
 #higherText {
     color: rgba(0, 255, 0, 1);
 }
-
-
 
 #upArrow, #downArrow {
     width: 15px;

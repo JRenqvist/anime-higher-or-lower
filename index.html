@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="startScreen">
+        
+        <h1 id="startText">Welcome to anime higher or lower</h1>
+        <p id="description">You will be given two animes and you must guess which one has a higher score according to MyAnimeList</p>
+            <button class="startButton" onclick="onStartClick()"><span>Start</span></button>
+    </div>
     <div class="leftAnime">
         <img src="./images/attack-on-titan.jpg" id="leftImage" >
         <p id="leftTitle">Left Anime Title</p>
@@ -15,12 +21,12 @@
     <div class="rightAnime">
         <img src="./images/one-piece.jpg" id="rightImage" >
         <p id="rightTitle">Right Anime Title</p>
-        <p id="rightScore"></p>
-        <button class="guessHigher">
+        <p id="rightScore">???</p>
+        <button class="guessHigher" onclick="onHigherClick()">
             <p id="higherText">Higher</p>
             <img id="upArrow" src="./images/data/green_arrow.png">
         </button>
-        <button class="guessLower">
+        <button class="guessLower" onclick="onLowerClick()">
             <p id="lowerText">Lower</p>
             <img id="downArrow" src="./images/data/red_arrow.png">
         </button>
@@ -28,5 +34,6 @@
     <div class="input">
         <p id="versus">VS</p>
     </div>
+    <script src="app.js"></script>
 </body>
 </html>
