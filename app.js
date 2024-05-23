@@ -30,8 +30,17 @@ function onLowerClick() {
 function onStartClick() {
     console.log("Start");
     
-    // Set background things to normal opacity
+    // Get elements with class "leftAnime" and "rightAnime"
+    let leftAnimeElements = document.getElementsByClassName("leftAnime");
+    let rightAnimeElements = document.getElementsByClassName("rightAnime");
     
+    // Iterate over each element and set opacity
+    for (let i = 0; i < leftAnimeElements.length; i++) {
+        leftAnimeElements[i].style.opacity = 1;
+    }
+    for (let i = 0; i < rightAnimeElements.length; i++) {
+        rightAnimeElements[i].style.opacity = 1;
+    }
 }
 
 // returns random key from Set or Map
