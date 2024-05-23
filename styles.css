@@ -88,33 +88,34 @@ body, html {
     object-fit: cover;
 }
 
-#leftImage {
-    transition: opacity 0.5s ease-in-out;
-}
-
-#leftTitle, #rightTitle, #leftScore, #rightScore {
+#leftTitle, #rightTitle, #leftScore, #rightScore, #leftDescription, #rightDescription1, #rightDescription2 {
     position: relative;
     z-index: 1;
     margin: 0;
-    padding: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px;
     border-radius: 10px;
+    text-shadow: 3px 3px #000;
 }
 
 #leftTitle, #rightTitle {
     color: white;
-    font-size: 30px;
+    font-size: 60px;
     font-weight: bold;
-    margin-bottom: 10px;
 }
 
 #leftScore, #rightScore {
     color: green;
-    font-size: 25px;
+    font-size: 50px;
     font-weight: bold;
 }
 
-.input {
+#leftDescription, #rightDescription1, #rightDescription2 {
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.middle {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -130,7 +131,51 @@ body, html {
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
+    opacity: 0;
+    margin-bottom: -10px;
 }
+
+#result {
+    height: 0px;
+    width: 0px;
+    justify-content: center;
+    align-items: center;
+    margin-top: -100px;
+}
+
+@keyframes expand {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+#result.expand {
+    animation: expand 0.5s forwards; /* Adjust the duration as needed */
+    height: 65px; /* Ensure these properties are set for the final state */
+    width: 65px; /* Ensure these properties are set for the final state */
+    transform-origin: center; /* Transform from the center */
+}
+
+@keyframes shrink {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+#versus.shrink {
+    animation: shrink 0.5s forwards; /* Adjust the duration as needed */
+    transform-origin: center; /* Transform from the center */
+}
+
+
 
 .guessHigher, .guessLower {
     position: relative;
@@ -149,6 +194,8 @@ body, html {
 .guessHigher {
     border: 2px solid rgb(0, 150, 0);
     top: 0;
+    margin-bottom: 5px;
+    margin-top: -60px;
 }
 
 .guessLower {
