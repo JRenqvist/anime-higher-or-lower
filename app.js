@@ -1,8 +1,14 @@
 const scoreMap = new Map();
 const imageMap = new Map();
 
+// Scores
 let leftAnimeScore;
 let rightAnimeScore;
+
+// Next anime in queue
+let nextAnimeImage;
+let nextAnimeScore;
+let nextAnimeTitle
 
 function loadMap() {
     scoreMap.set("Attack on titan", "8.48");
@@ -23,12 +29,11 @@ function loadMap() {
 }
 
 function onHigherClick() {
-    console.log("CLicked on higher")
     // Check result - if they are equal, then the user wins
     if (leftAnimeScore <= rightAnimeScore) {
         // If we get in here, the user answered correctly
         document.getElementById("rightScore").innerHTML = rightAnimeScore;
-        document.getElementById("rightScore").style.opacity = 1;
+        document.getElementById("rightScore").classList.add("fadeIn");
         document.getElementById("result").style.opacity = 1;
 
         // Things to do when guessing correctly:
@@ -51,12 +56,11 @@ function onHigherClick() {
 }
 
 function onLowerClick() {
-    console.log("CLicked on lower")
     // Check result - if they are equal, then the user wins
     if (leftAnimeScore >= rightAnimeScore) {
         // If we get in here, the user answered correctly
         document.getElementById("rightScore").innerHTML = rightAnimeScore;
-        document.getElementById("rightScore").style.opacity = 1;
+        document.getElementById("rightScore").classList.add("fadeIn");
         removeInputButtons();
         changeRightAnimeDescription();
         changeMiddleToCheckmark();
@@ -75,7 +79,7 @@ function removeInputButtons() {
     let lowerButton = document.getElementsByClassName("guessLower");
     for (let i = 0; i < higherButton.length; i++) {
         higherButton[i].parentNode.removeChild(higherButton[i]);
-    }
+    } 
     for (let i = 0; i < lowerButton.length; i++) {
         lowerButton[i].parentNode.removeChild(lowerButton[i]);
     }
@@ -116,30 +120,41 @@ function changeMiddleToX() {
 }
 
 function onStartClick() {
-    
+    // Get the start screen element
+    let startScreen = document.getElementById("start");
+
+    // Add the 'lower' animation class to the start screen
+    startScreen.classList.add("fadeOut");
+
     // Get elements with class "leftAnime" and "rightAnime"
     let leftAnimeElements = document.getElementsByClassName("leftAnime");
     let rightAnimeElements = document.getElementsByClassName("rightAnime");
+    let middleElements = document.getElementsByClassName("middle");
     
-    // Iterate over each element and set opacity
+    // Add the 'fadeIn' animation class to the main page elements
     for (let i = 0; i < leftAnimeElements.length; i++) {
-        leftAnimeElements[i].style.opacity = 1;
+        leftAnimeElements[i].classList.add("fadeIn");
     }
     for (let i = 0; i < rightAnimeElements.length; i++) {
-        rightAnimeElements[i].style.opacity = 1;
+        rightAnimeElements[i].classList.add("fadeIn");
     }
-
-    // Remove the start screen class
-    let div = document.getElementById("start");
-    div.parentNode.removeChild(div);
+    for (let i = 0; i < middleElements.length; i++) {
+        middleElements[i].classList.add("fadeIn");
+    }
 
     // Set point paragraph for right anime opacity to 0
     document.getElementById("rightScore").style.opacity = 0;
 
     // Set opacity for VS paragraph
-    div = document.getElementById("versus");
-    div.style.opacity = 1;
+    let versus = document.getElementById("versus");
+    versus.style.opacity = 1;
+
+    // Optionally, remove the start screen element after the animation completes
+    setTimeout(() => {
+        startScreen.parentNode.removeChild(startScreen);
+    }, 500); // Match this duration to the animation duration
 }
+
 
 // returns random key from Set or Map
 function getRandomKey(collection) {
@@ -153,33 +168,33 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Generate left image
     // Get random entries from maps
-    let anime = getRandomKey(scoreMap);
-    let score = scoreMap.get(anime);
-    let image = imageMap.get(anime);
+    let title = getRandomKey(scoreMap);
+    let score = scoreMap.get(title);
+    let image = imageMap.get(title);
     
     // Set the title, image and score to left anime
-    document.getElementById("leftTitle").innerHTML = anime;
+    document.getElementById("leftTitle").innerHTML = title;
     document.getElementById("leftScore").innerHTML = score;
     document.getElementById("leftImage").src = "images/" + image;
 
     score = parseFloat(score);
     leftAnimeScore = score;
-    let leftAnimeName = anime;
+    let leftAnimeTitle = title;
 
     // Generate right image    
     // Make new map and remove already picked entry
-    let oldAnime = anime;
+    let oldTitle = title;
     let tempMap = scoreMap;
-    tempMap.delete(oldAnime);
-    anime = getRandomKey(tempMap);
-    score = tempMap.get(anime);
-    image = imageMap.get(anime);
+    tempMap.delete(oldTitle);
+    title = getRandomKey(tempMap);
+    score = tempMap.get(title);
+    image = imageMap.get(title);
 
     // Set title and image, but not score, to right anime
-    document.getElementById("rightTitle").innerHTML = anime;
+    document.getElementById("rightTitle").innerHTML = title;
     document.getElementById("rightScore").innerHTML = "???";
     document.getElementById("rightImage").src = "images/" + image;
-    document.getElementById("rightDescription2").innerHTML = "than " + leftAnimeName;
+    document.getElementById("rightDescription2").innerHTML = "than " + leftAnimeTitle;
 
     score = parseFloat(score);
     rightAnimeScore = score;
