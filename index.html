@@ -11,32 +11,37 @@
         <img id="startImage" src="images/data/startScreenImage.jpg">
         <h1 id="startText">Welcome to anime higher or lower</h1>
         <p id="description">You will be given two animes and you must guess which one has a higher score according to MyAnimeList</p>
-            <button class="startButton" onclick="onStartClick()"><span>Start</span></button>
+        <button class="startButton" onclick="onStartClick()"><span>Start</span></button>
     </div>
-    <div class="leftAnime">
-        <img src="./images/attack-on-titan.jpg" id="leftImage" >
-        <p id="leftTitle">Left Anime Title</p>
-        <p id="leftDescription">has a score of</p>
-        <p id="leftScore">Score: 8.41</p>
-    </div>
-    <div class="rightAnime">
-        <img src="./images/one-piece.jpg" id="rightImage" >
-        <p id="rightTitle">Right Anime Title</p>
-        <p id="rightDescription1">has a score thats</p>
-        <p id="rightScore">???</p>
-        <button class="guessHigher" onclick="onHigherClick()">
-            <p id="higherText">Higher</p>
-            <img id="upArrow" src="./images/data/green_arrow.png">
-        </button>
-        <button class="guessLower" onclick="onLowerClick()">
-            <p id="lowerText">Lower</p>
-            <img id="downArrow" src="./images/data/red_arrow.png">
-        </button>
-        <p id="rightDescription2">than...</p>
-    </div>
-    <div class="middle">
-        <p id="versus">VS</p>
-        <img id="result"></img>
+    <div id="wrap">
+        <div class="leftAnime" id="leftAnime">
+            <img src="./images/attack-on-titan.jpg" id="leftImage" >
+            <p id="leftTitle" class="animeInformation">Left Anime Title</p>
+            <p id="leftDescription" class="animeInformation">has a score of</p>
+            <p id="leftScore" class="animeInformation">Score: 8.41</p>
+        </div>
+        <div class="rightAnime" id="rightAnime">
+            <img src="./images/one-piece.jpg" id="rightImage" >
+            <p id="rightTitle", class="animeInformation">Right Anime Title</p>
+            <p id="rightDescription1" class="animeInformation">has a score thats</p>
+            <p id="rightScore" class="animeInformation">???</p>
+            <button class="guessHigher animeInformation" onclick="onHigherClick()">
+                <p id="higherText"><span>Higher</span></p>
+                <img id="upArrow" src="./images/data/green_arrow.png">
+            </button>
+            <button class="guessLower animeInformation" onclick="onLowerClick()">
+                <p id="lowerText"><span>Lower</span></p>
+                <img id="downArrow" src="./images/data/red_arrow.png">
+            </button>
+            <p id="rightDescription2" class="animeInformation">than...</p>
+        </div>
+        <div class="middle animeInformation">
+            <p id="versus">VS</p>
+            <img id="result"></img>
+        </div>
+        <div class="nextAnime" id="nextAnime">
+            <img src="./images/one-piece.jpg" id="nextImage" >
+        </div>
     </div>
     <script src="app.js"></script>
 </body>

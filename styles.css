@@ -66,29 +66,85 @@ body, html {
     z-index: 2;
 }
 
-.leftAnime, .rightAnime {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    height: 100%;
-    background-color: black;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+#wrap {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Adjust height as needed */
     overflow: hidden;
-    opacity: 0;
+}
+  
+.leftAnime, .rightAnime, .nextAnime {
+position: absolute;
+top: 0;
+width: 50%;
+height: 100%;
+background-color: black;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+overflow: hidden;
+opacity: 0;
+transition: opacity 1s ease-in-out;
 }
 
-.leftAnime {
-    left: 0;
-}
+
 
 .rightAnime {
-    right: 0;
+    left: 50%;
 }
 
-#leftImage, #rightImage {
+.nextAnime {
+    left: 50%;
+}
+
+@keyframes moveLeft {
+0% {
+    transform: translateX(0);
+    opacity: 1;
+}
+100% {
+    transform: translateX(-100%);
+    opacity: 1;
+}
+}
+
+@keyframes moveRight {
+0% {
+    transform: translateX(0%);
+    opacity: 1;
+}
+100% {
+    transform: translateX(-100%);
+    opacity: 1;
+}
+}
+
+@keyframes moveNext {
+0% {
+    transform: translateX(100%);
+    opacity: 1;
+}
+100% {
+    transform: translateX(0%);
+    opacity: 1;
+}
+}
+
+.leftAnime.move {
+animation: moveLeft 2s forwards;
+}
+
+.rightAnime.move {
+animation: moveRight 2s forwards;
+}
+
+.nextAnime.move {
+animation: moveNext 2s forwards;
+}
+  
+
+#leftImage, #rightImage, #nextImage {
     position: absolute;
     top: 0;
     left: 0;
@@ -96,7 +152,7 @@ body, html {
     height: 100%;
     opacity: 0.5;
     object-fit: cover;
-}
+    }
 
 #leftTitle, #rightTitle, #leftScore, #rightScore, #leftDescription, #rightDescription1, #rightDescription2 {
     position: relative;
@@ -285,9 +341,9 @@ body, html {
 }
 
 .fadeIn {
-    animation: fadeIn 2s forwards; /* Adjust the duration as needed */
+    animation: fadeIn 1s forwards; /* Adjust the duration as needed */
 }
 
 .fadeOut {
-    animation: fadeOut 2s forwards; /* Adjust the duration as needed */
+    animation: fadeOut 1s forwards; /* Adjust the duration as needed */
 }
