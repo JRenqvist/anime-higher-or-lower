@@ -88,8 +88,19 @@ function guessedCorrectly() {
     changeMiddleToCheckmark();
 
     setTimeout(hideUI, 1500)
+    setTimeout(moveImages, 2500);
+    setTimeout(() => {
+        updateAnimeFields();
+        changeMiddleToVS();
+        showInputButtons();
+        updateUIElements();
+        showUI();
 
-    moveImages();
+        setTimeout(() => {
+            makeButtonsClickable();
+        }, 1000);
+
+    }, 4500)
 }
 
 function guessedIncorrectly() {
@@ -104,10 +115,25 @@ function removeInputButtons() {
     let higherButton = document.getElementsByClassName("guessHigher");
     let lowerButton = document.getElementsByClassName("guessLower");
     for (let i = 0; i < higherButton.length; i++) {
-        higherButton[i].parentNode.removeChild(higherButton[i]);
+        higherButton[i].classList.remove("fadeIn");
+        higherButton[i].classList.add("fadeOut");
     } 
     for (let i = 0; i < lowerButton.length; i++) {
-        lowerButton[i].parentNode.removeChild(lowerButton[i]);
+        lowerButton[i].classList.remove("fadeIn");
+        lowerButton[i].classList.add("fadeOut");
+    }
+}
+
+function showInputButtons() {
+    let higherButton = document.getElementsByClassName("guessHigher");
+    let lowerButton = document.getElementsByClassName("guessLower");
+    for (let i = 0; i < higherButton.length; i++) {
+        higherButton[i].classList.remove("fadeOut");
+        higherButton[i].classList.add("fadeIn");
+    } 
+    for (let i = 0; i < lowerButton.length; i++) {
+        lowerButton[i].classList.remove("fadeOut");
+        lowerButton[i].classList.add("fadeIn");
     }
 }
 
@@ -118,7 +144,11 @@ function changeRightAnimeDescription() {
 
     // Remove the "than..." from the page
     let rightDescription2 = document.getElementById("rightDescription2");
-    rightDescription2.parentNode.removeChild(rightDescription2);
+    rightDescription2.classList.add("fadeOut");
+    // Remove after 1 second
+    setTimeout(() => {
+        rightDescription2.classList.remove("fadeOut");
+    }, 1000);
 }
 
 function changeMiddleToCheckmark() {
@@ -143,6 +173,16 @@ function changeMiddleToX() {
     versus.classList.add("shrink");
 }
 
+function changeMiddleToVS() {
+    let checkmark = document.getElementById("result");
+    checkmark.classList.remove("expand");
+    checkmark.classList.add("moveReset");
+
+    let versus = document.getElementById("versus");
+    versus.classList.remove("shrink");
+    versus.classList.add("expand");
+}
+
 function getNextAnime(rightAnimeTitle, leftAnimeTitle) {
     // Sets nextAnime field to a random anime thats not either of the input titles
     let tempMap = scoreMap;
@@ -150,14 +190,34 @@ function getNextAnime(rightAnimeTitle, leftAnimeTitle) {
     tempMap.delete(leftAnimeTitle);
     
     let title = getRandomKey(tempMap);
-    nextAnime = new Anime(title, tempMap.get(title), imageMap.get(title));
+    nextAnime = new Anime(title, parseFloat(tempMap.get(title)), imageMap.get(title));
 }
 
 function hideUI() {
     // Hides the text and buttons, showing only the images
     let UIElements = document.getElementsByClassName("animeInformation");
     for (let i = 0; i < UIElements.length; i++) {
+        UIElements[i].classList.remove("fadeIn")
         UIElements[i].classList.add("fadeOut")
+    }
+}
+
+function showUI() {
+
+    // Show the bottom description
+    let UIElements = document.getElementsByClassName("animeInformation");
+    for (let i = 0; i < UIElements.length; i++) {
+        UIElements[i].classList.remove("fadeOut")
+        UIElements[i].classList.add("fadeIn")
+    }
+
+    // Shows the text and buttons
+    let UIElements = document.getElementsByClassName("animeInformation");
+    for (let i = 0; i < UIElements.length; i++) {
+        if (UIElements[i].id != "rightScore") {
+            UIElements[i].classList.remove("fadeOut")
+            UIElements[i].classList.add("fadeIn")
+        }    
     }
 }
 
@@ -165,13 +225,73 @@ function moveImages() {
     document.querySelector('.leftAnime').classList.add('move');
     document.querySelector('.rightAnime').classList.add('move');
     document.querySelector('.nextAnime').classList.add('move');
+
+    // Remove the "move" class after the animation is done
+    setTimeout(() => {
+        document.querySelector('.leftAnime').classList.remove('move');
+        document.querySelector('.rightAnime').classList.remove('move');
+        document.querySelector('.nextAnime').classList.remove('move');
+    }, 2000);
+}
+
+function updateAnimeFields() {
+    leftAnime = rightAnime;
+    rightAnime = nextAnime;
+    
+    // Get next anime
+    getNextAnime(rightAnime.getTitle(), leftAnime.getTitle());
+}
+
+function updateUIElements() {
+    console.log(leftAnime);
+    console.log(rightAnime);
+    console.log(nextAnime);
+    // Set the title, image and score to left anime
+    document.getElementById("leftTitle").innerHTML = leftAnime.getTitle();
+    document.getElementById("leftScore").innerHTML = leftAnime.getScore();
+    document.getElementById("leftImage").src = "images/" + leftAnime.getImage();
+
+    // Set title and image, but not score, to right anime
+    document.getElementById("rightTitle").innerHTML = rightAnime.getTitle();
+    document.getElementById("rightScore").innerHTML = "???";
+    document.getElementById("rightImage").src = "images/" + rightAnime.getImage();
+    document.getElementById("rightDescription1").innerHTML = "has a score thats";
+    document.getElementById("rightDescription2").innerHTML = "than " + leftAnime.getTitle();
+
+    // Set image to next anime
+    document.getElementById("nextImage").src = "images/" + nextAnime.getImage();
+}
+
+function makeButtonsClickable() {
+    let higherButton = document.getElementsByClassName("guessHigher");
+    let lowerButton = document.getElementsByClassName("guessLower");
+    for (let i = 0; i < higherButton.length; i++) {
+        higherButton[i].classList.remove("fadeIn");
+    } 
+    for (let i = 0; i < lowerButton.length; i++) {
+        lowerButton[i].classList.remove("fadeIn");
+    }
+}
+
+function fadeIn(element, duration) {
+    let opacity = 0;
+    const increment = 1 / (duration / 10); // Adjust the increment value for smoother or faster animation
+
+    const interval = setInterval(function() {
+        if (opacity >= 1) {
+            clearInterval(interval);
+        } else {
+            opacity += increment;
+            element.style.opacity = opacity;
+        }
+    }, 10); // Adjust the interval for smoother or faster animation
 }
 
 function onStartClick() {
     // Get the start screen element
     let startScreen = document.getElementById("start");
 
-    // Add the 'lower' animation class to the start screen
+    // Add the 'fadeOut' animation class to the start screen
     startScreen.classList.add("fadeOut");
 
     // Get elements with class "leftAnime" and "rightAnime"
@@ -179,15 +299,15 @@ function onStartClick() {
     let rightAnimeElements = document.getElementsByClassName("rightAnime");
     let middleElements = document.getElementsByClassName("middle");
     
-    // Add the 'fadeIn' animation class to the main page elements
+    // Fade in leftAnime, rightAnime, and middle elements
     for (let i = 0; i < leftAnimeElements.length; i++) {
-        leftAnimeElements[i].classList.add("fadeIn");
+        fadeIn(leftAnimeElements[i], 1000);
     }
     for (let i = 0; i < rightAnimeElements.length; i++) {
-        rightAnimeElements[i].classList.add("fadeIn");
+        fadeIn(rightAnimeElements[i], 1000);
     }
     for (let i = 0; i < middleElements.length; i++) {
-        middleElements[i].classList.add("fadeIn");
+        fadeIn(middleElements[i], 1000);
     }
 
     // Set point paragraph for right anime opacity to 0
@@ -196,10 +316,6 @@ function onStartClick() {
     // Set opacity for VS paragraph
     let versus = document.getElementById("versus");
     versus.style.opacity = 1;
-
-    // Load in the next anime
-    getNextAnime(leftAnime.getTitle(), rightAnime.getTitle());
-    console.log(nextAnime.getTitle());
 
     // Optionally, remove the start screen element after the animation completes
     setTimeout(() => {
@@ -223,11 +339,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let title = getRandomKey(scoreMap);
     leftAnime = new Anime(title, parseFloat(scoreMap.get(title)), imageMap.get(title));
     
-    // Set the title, image and score to left anime
-    document.getElementById("leftTitle").innerHTML = leftAnime.getTitle();
-    document.getElementById("leftScore").innerHTML = leftAnime.getScore();
-    document.getElementById("leftImage").src = "images/" + leftAnime.getImage();
-
     // Generate right image    
     // Make new map and remove already picked entry
     let tempMap = scoreMap;
@@ -237,10 +348,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     title = getRandomKey(tempMap);
     rightAnime = new Anime(title, parseFloat(tempMap.get(title)), imageMap.get(title));
 
-    // Set title and image, but not score, to right anime
-    document.getElementById("rightTitle").innerHTML = rightAnime.getTitle();
-    document.getElementById("rightScore").innerHTML = "???";
-    document.getElementById("rightImage").src = "images/" + rightAnime.getImage();
-    document.getElementById("rightDescription2").innerHTML = "than " + leftAnime.getTitle();
+    // Load in the next anime
+    getNextAnime(leftAnime.getTitle(), rightAnime.getTitle());
 
+    updateUIElements();
 });

@@ -100,7 +100,7 @@ transition: opacity 1s ease-in-out;
 
 @keyframes moveLeft {
 0% {
-    transform: translateX(0);
+    transform: translateX(0%);
     opacity: 1;
 }
 100% {
@@ -142,7 +142,36 @@ animation: moveRight 2s forwards;
 .nextAnime.move {
 animation: moveNext 2s forwards;
 }
-  
+
+@keyframes moveReset {
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes moveResetNext {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+.leftAnime.moveReset {
+animation: moveReset 0s backwards;
+}
+
+.rightAnime.moveReset {
+animation: moveReset 0s backwards;
+}
+
+.nextAnime.moveReset {
+animation: moveResetNext 0s backwards;
+}
 
 #leftImage, #rightImage, #nextImage {
     position: absolute;
@@ -207,6 +236,10 @@ animation: moveNext 2s forwards;
     justify-content: center;
     align-items: center;
     margin-top: -100px;
+}
+
+#result.moveReset {
+    animation: moveReset 0s backwards;
 }
 
 @keyframes expand {
