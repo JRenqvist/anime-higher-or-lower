@@ -204,13 +204,6 @@ function hideUI() {
 
 function showUI() {
 
-    // Show the bottom description
-    let UIElements = document.getElementsByClassName("animeInformation");
-    for (let i = 0; i < UIElements.length; i++) {
-        UIElements[i].classList.remove("fadeOut")
-        UIElements[i].classList.add("fadeIn")
-    }
-
     // Shows the text and buttons
     let UIElements = document.getElementsByClassName("animeInformation");
     for (let i = 0; i < UIElements.length; i++) {
