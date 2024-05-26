@@ -144,6 +144,14 @@ function guessedIncorrectly() {
     removeInputButtons();
     changeRightAnimeDescription();
     changeMiddleToX();
+
+    setTimeout(() => {
+        hideMainGame();
+        showGameOverScreen();
+    }, 1500);
+    setTimeout(() => {
+        
+    }, 2500);
 }
 
 function removeInputButtons() {
@@ -323,18 +331,7 @@ function updateScoreBar() {
     highScore.innerHTML = "Highscore: " + player.getHighScore();
 }
 
-function onStartClick() {
-    // Get the start screen element
-    let startScreen = document.getElementById("start");
-
-    // Add the 'fadeOut' animation class to the start screen
-    startScreen.classList.add("fadeOut");
-    // Remove the start screen after 1 second
-    setTimeout(() => {
-        startScreen.style.opacity = 0;
-        startScreen.classList.remove("fadeOut");
-    }, 1000);
-
+function displayMainGame() {
     // Get elements with class "leftAnime" and "rightAnime"
     let leftAnimeElements = document.getElementsByClassName("leftAnime");
     let rightAnimeElements = document.getElementsByClassName("rightAnime");
@@ -374,6 +371,82 @@ function onStartClick() {
             scoreBarElements[i].classList.remove("fadeIn");
         }, 1000);
     }
+}
+
+function hideMainGame() {
+    // Get elements with class "leftAnime" and "rightAnime"
+    let leftAnimeElements = document.getElementsByClassName("leftAnime");
+    let rightAnimeElements = document.getElementsByClassName("rightAnime");
+    let middleElements = document.getElementsByClassName("middle");
+    let scoreBarElements = document.getElementsByClassName("scoreBar");
+    
+    // Fade in leftAnime, rightAnime, and middle elements
+    for (let i = 0; i < leftAnimeElements.length; i++) {
+        leftAnimeElements[i].classList.add("fadeOut");
+        // Remove the fadeOut element after 1 second
+        setTimeout(() => {
+            leftAnimeElements[i].style.opacity = 0;
+            leftAnimeElements[i].classList.remove("fadeOut");
+        }, 1000);
+    }
+    for (let i = 0; i < rightAnimeElements.length; i++) {
+        rightAnimeElements[i].classList.add("fadeOut");
+        // Remove the fadeOut element after 1 second
+        setTimeout(() => {
+            rightAnimeElements[i].style.opacity = 0;
+            rightAnimeElements[i].classList.remove("fadeOut");
+        }, 1000);
+    }
+    for (let i = 0; i < middleElements.length; i++) {
+        middleElements[i].classList.add("fadeOut");
+        // Remove the fadeOut element after 1 second
+        setTimeout(() => {
+            middleElements[i].style.opacity = 0;
+            middleElements[i].classList.remove("fadeOut");
+        }, 1000);
+    }
+    for (let i = 0; i <scoreBarElements.length; i++) {
+        scoreBarElements[i].classList.add("fadeOut")
+        // Remove the fadeOut element after 1 second
+        setTimeout(() => {
+            scoreBarElements[i].style.opacity = 0;
+            scoreBarElements[i].classList.remove("fadeOut");
+        }, 1000);
+    }
+}
+
+function showGameOverScreen() {
+    // Change the data of the main screen to show the game over
+    document.getElementById("mainImage").src = "images/data/gameOverImage.jpg";
+    document.getElementById("mainText").innerHTML = "Game over";
+    document.getElementById("mainDescription").innerHTML = "Your score: " + player.getScore() + "\nHighscore: " + player.getHighScore();
+    console.log(document.getElementById("mainButton"));
+    document.getElementById("mainButton").value = "Play again";
+
+    let mainScreen = document.getElementsByClassName("mainScreen");
+    for (let i = 0; i < mainScreen.length; i++) {
+        mainScreen[i].classList.add("fadeIn");
+        // Remove the fadeIn element after 1 second
+        setTimeout(() => {
+            mainScreen[i].style.opacity = 1;
+            mainScreen[i].classList.remove("fadeIn");
+        }, 1000);
+    }
+}
+
+function onStartClick() {
+    // Get the start screen element
+    let mainScreen = document.getElementById("main");
+
+    // Add the 'fadeOut' animation class to the start screen
+    mainScreen.classList.add("fadeOut");
+    // Remove the start screen after 1 second
+    setTimeout(() => {
+        mainScreen.style.opacity = 0;
+        mainScreen.classList.remove("fadeOut");
+    }, 1000);
+
+    displayMainGame();
 
     // Set point paragraph for right anime opacity to 0
     document.getElementById("rightScore").style.opacity = 0;
@@ -384,8 +457,6 @@ function onStartClick() {
 
     // Create player instance
     player = new Player(0, 0);
-    updateScoreBar();
-
     
 }
 
