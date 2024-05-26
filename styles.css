@@ -358,6 +358,29 @@ animation: moveResetNext 0s backwards;
     filter: drop-shadow(3px 3px 1px #000);
 }
 
+.scoreBar {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    width: 12%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    opacity: 0;
+}
+
+#score {
+    color: white;
+    font-size: 30px;
+    text-shadow: 2px 2px black;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;

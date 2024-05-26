@@ -76,6 +76,11 @@ function onLowerClick() {
 function guessedCorrectly() {
     document.getElementById("rightScore").innerHTML = rightAnime.getScore();
     document.getElementById("rightScore").classList.add("fadeIn");
+    // Remove the "fadeIn" class after 1 second
+    setTimeout(() => {
+        document.getElementById("rightScore").style.opacity = 1;
+        document.getElementById("rightScore").classList.remove("fadeIn");
+    }, 1000);
 
     // Things to do when guessing correctly:
     /*
@@ -95,17 +100,18 @@ function guessedCorrectly() {
         showInputButtons();
         updateUIElements();
         showUI();
-
-        setTimeout(() => {
-            makeButtonsClickable();
-        }, 1000);
-
     }, 4500)
 }
 
 function guessedIncorrectly() {
     document.getElementById("rightScore").innerHTML = rightAnime.getScore();
     document.getElementById("rightScore").classList.add("fadeIn");
+    // Remove the "fadeIn" class after 1 second
+    setTimeout(() => {
+        document.getElementById("rightScore").style.opacity = 1;
+        document.getElementById("rightScore").classList.remove("fadeIn");
+    }, 1000);
+
     removeInputButtons();
     changeRightAnimeDescription();
     changeMiddleToX();
@@ -115,12 +121,20 @@ function removeInputButtons() {
     let higherButton = document.getElementsByClassName("guessHigher");
     let lowerButton = document.getElementsByClassName("guessLower");
     for (let i = 0; i < higherButton.length; i++) {
-        higherButton[i].classList.remove("fadeIn");
         higherButton[i].classList.add("fadeOut");
+        // Remove the "fadeOut" class after 1 second
+        setTimeout(() => {
+            higherButton[i].style.opacity = 0;
+            higherButton[i].classList.remove("fadeOut");
+        }, 1000);
     } 
     for (let i = 0; i < lowerButton.length; i++) {
-        lowerButton[i].classList.remove("fadeIn");
         lowerButton[i].classList.add("fadeOut");
+        // Remove the "fadeOut" class after 1 second
+        setTimeout(() => {
+            lowerButton[i].style.opacity = 0;
+            lowerButton[i].classList.remove("fadeOut");
+        }, 1000);
     }
 }
 
@@ -128,12 +142,20 @@ function showInputButtons() {
     let higherButton = document.getElementsByClassName("guessHigher");
     let lowerButton = document.getElementsByClassName("guessLower");
     for (let i = 0; i < higherButton.length; i++) {
-        higherButton[i].classList.remove("fadeOut");
         higherButton[i].classList.add("fadeIn");
+        // Remove the "fadeIn" class after 1 second
+        setTimeout(() => {
+            higherButton[i].style.opacity = 1;
+            higherButton[i].classList.remove("fadeIn");
+        }, 1000);
     } 
     for (let i = 0; i < lowerButton.length; i++) {
-        lowerButton[i].classList.remove("fadeOut");
         lowerButton[i].classList.add("fadeIn");
+        // Remove the "fadeIn" class after 1 second
+        setTimeout(() => {
+            lowerButton[i].style.opacity = 1;
+            lowerButton[i].classList.remove("fadeIn");
+        }, 1000);
     }
 }
 
@@ -147,6 +169,7 @@ function changeRightAnimeDescription() {
     rightDescription2.classList.add("fadeOut");
     // Remove after 1 second
     setTimeout(() => {
+        rightDescription2.style.opacity = 0;
         rightDescription2.classList.remove("fadeOut");
     }, 1000);
 }
@@ -197,8 +220,14 @@ function hideUI() {
     // Hides the text and buttons, showing only the images
     let UIElements = document.getElementsByClassName("animeInformation");
     for (let i = 0; i < UIElements.length; i++) {
-        UIElements[i].classList.remove("fadeIn")
-        UIElements[i].classList.add("fadeOut")
+        if (UIElements[i].id != "rightDescription2") {
+            UIElements[i].classList.add("fadeOut");
+            // Remove the "fadeOut" class after 1 second
+            setTimeout(() => {
+                UIElements[i].style.opacity = 0;
+                UIElements[i].classList.remove("fadeOut");
+            }, 1000);
+        }
     }
 }
 
@@ -208,10 +237,15 @@ function showUI() {
     let UIElements = document.getElementsByClassName("animeInformation");
     for (let i = 0; i < UIElements.length; i++) {
         if (UIElements[i].id != "rightScore") {
-            UIElements[i].classList.remove("fadeOut")
-            UIElements[i].classList.add("fadeIn")
+            UIElements[i].classList.add("fadeIn");
+            // Remove the "fadeIn" class after 1 second
+            setTimeout(() => {
+                UIElements[i].style.opacity = 1;
+                UIElements[i].classList.remove("fadeIn");
+            }, 1000);
         }    
     }
+
 }
 
 function moveImages() {
@@ -236,9 +270,6 @@ function updateAnimeFields() {
 }
 
 function updateUIElements() {
-    console.log(leftAnime);
-    console.log(rightAnime);
-    console.log(nextAnime);
     // Set the title, image and score to left anime
     document.getElementById("leftTitle").innerHTML = leftAnime.getTitle();
     document.getElementById("leftScore").innerHTML = leftAnime.getScore();
@@ -255,37 +286,17 @@ function updateUIElements() {
     document.getElementById("nextImage").src = "images/" + nextAnime.getImage();
 }
 
-function makeButtonsClickable() {
-    let higherButton = document.getElementsByClassName("guessHigher");
-    let lowerButton = document.getElementsByClassName("guessLower");
-    for (let i = 0; i < higherButton.length; i++) {
-        higherButton[i].classList.remove("fadeIn");
-    } 
-    for (let i = 0; i < lowerButton.length; i++) {
-        lowerButton[i].classList.remove("fadeIn");
-    }
-}
-
-function fadeIn(element, duration) {
-    let opacity = 0;
-    const increment = 1 / (duration / 10); // Adjust the increment value for smoother or faster animation
-
-    const interval = setInterval(function() {
-        if (opacity >= 1) {
-            clearInterval(interval);
-        } else {
-            opacity += increment;
-            element.style.opacity = opacity;
-        }
-    }, 10); // Adjust the interval for smoother or faster animation
-}
-
 function onStartClick() {
     // Get the start screen element
     let startScreen = document.getElementById("start");
 
     // Add the 'fadeOut' animation class to the start screen
     startScreen.classList.add("fadeOut");
+    // Remove the start screen after 1 second
+    setTimeout(() => {
+        startScreen.style.opacity = 0;
+        startScreen.classList.remove("fadeOut");
+    }, 1000);
 
     // Get elements with class "leftAnime" and "rightAnime"
     let leftAnimeElements = document.getElementsByClassName("leftAnime");
@@ -334,10 +345,7 @@ function onStartClick() {
     let versus = document.getElementById("versus");
     versus.style.opacity = 1;
 
-    // Remove the start screen after 1 second
-    setTimeout(() => {
-        startScreen.parentNode.removeChild(startScreen);
-    }, 1000);
+    
 }
 
 
