@@ -291,16 +291,40 @@ function onStartClick() {
     let leftAnimeElements = document.getElementsByClassName("leftAnime");
     let rightAnimeElements = document.getElementsByClassName("rightAnime");
     let middleElements = document.getElementsByClassName("middle");
+    let scoreBarElements = document.getElementsByClassName("scoreBar");
     
     // Fade in leftAnime, rightAnime, and middle elements
     for (let i = 0; i < leftAnimeElements.length; i++) {
-        fadeIn(leftAnimeElements[i], 1000);
+        leftAnimeElements[i].classList.add("fadeIn");
+        // Remove the fadeIn element after 1 second
+        setTimeout(() => {
+            leftAnimeElements[i].style.opacity = 1;
+            leftAnimeElements[i].classList.remove("fadeIn");
+        }, 1000);
     }
     for (let i = 0; i < rightAnimeElements.length; i++) {
-        fadeIn(rightAnimeElements[i], 1000);
+        rightAnimeElements[i].classList.add("fadeIn");
+        // Remove the fadeIn element after 1 second
+        setTimeout(() => {
+            rightAnimeElements[i].style.opacity = 1;
+            rightAnimeElements[i].classList.remove("fadeIn");
+        }, 1000);
     }
     for (let i = 0; i < middleElements.length; i++) {
-        fadeIn(middleElements[i], 1000);
+        middleElements[i].classList.add("fadeIn");
+        // Remove the fadeIn element after 1 second
+        setTimeout(() => {
+            middleElements[i].style.opacity = 1;
+            middleElements[i].classList.remove("fadeIn");
+        }, 1000);
+    }
+    for (let i = 0; i <scoreBarElements.length; i++) {
+        scoreBarElements[i].classList.add("fadeIn")
+        // Remove the fadeIn element after 1 second
+        setTimeout(() => {
+            scoreBarElements[i].style.opacity = 1;
+            scoreBarElements[i].classList.remove("fadeIn");
+        }, 1000);
     }
 
     // Set point paragraph for right anime opacity to 0
@@ -310,10 +334,10 @@ function onStartClick() {
     let versus = document.getElementById("versus");
     versus.style.opacity = 1;
 
-    // Optionally, remove the start screen element after the animation completes
+    // Remove the start screen after 1 second
     setTimeout(() => {
         startScreen.parentNode.removeChild(startScreen);
-    }, 1000); // Match this duration to the animation duration
+    }, 1000);
 }
 
 

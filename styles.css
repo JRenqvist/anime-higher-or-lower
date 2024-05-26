@@ -13,6 +13,7 @@ body, html {
     justify-content: center;
     width: 100%;
     height: 100%;
+    position: absolute;
 }
 
 #startText, #description {
@@ -42,6 +43,7 @@ body, html {
     overflow: hidden;
     border: 2px solid rgb(0, 150, 0);
     position: relative; /* Make sure the parent has position: relative */
+    z-index: 1;
 }
 
 .startButton::before {
@@ -288,6 +290,7 @@ animation: moveResetNext 0s backwards;
     gap: 10px;
     transition: background-color 0.3s ease;
     overflow: hidden;
+    z-index: 1;
 }
 
 .guessHigher {
