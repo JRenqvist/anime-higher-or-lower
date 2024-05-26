@@ -365,21 +365,26 @@ animation: moveResetNext 0s backwards;
     margin-bottom: 10px;
     margin-right: 10px;
     width: 12%;
-    height: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: auto;  /* Change height to auto to accommodate content */
+    display: flex;  /* Use flex display */
+    flex-direction: column;  /* Stack items vertically */
+    align-items: center;  /* Center items horizontally */
+    justify-content: center;  /* Center items vertically */
     overflow: hidden;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
     opacity: 0;
+    padding: 10px;  /* Optional: Add padding for better spacing */
+    box-sizing: border-box;  /* Ensure padding is included in width */
 }
 
-#score {
+#score, #highScore {
     color: white;
-    font-size: 30px;
     text-shadow: 2px 2px black;
+    font-size: 20px;
+    margin: 5px 0;  /* Add margin to separate the items */
 }
+
 
 @keyframes fadeIn {
     from {

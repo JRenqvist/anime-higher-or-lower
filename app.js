@@ -8,6 +8,9 @@ let rightAnime;
 // Next anime to be displayed. Make API call while user is guessing to load in correctly
 let nextAnime;
 
+// The player
+let player;
+
 class Anime {
     constructor(title, score, image) {
         this.title = title;
@@ -31,6 +34,28 @@ class Anime {
     }
     setImage(image) {
         this.image = image;
+    }
+}
+
+class Player {
+    constructor(score, highScore) {
+        this.score = score;
+        this.highScore = highScore;
+    }
+    getScore() {
+        return this.score;
+    }
+    getHighScore() {
+        return this.highScore;
+    }
+    addScore() {
+        this.score++;
+        if (this.score > this.highScore) {
+            this.highScore = this.score;
+        }
+    }
+    resetScore() {
+        this.score = 0;
     }
 }
 
@@ -92,7 +117,11 @@ function guessedCorrectly() {
     changeRightAnimeDescription();
     changeMiddleToCheckmark();
 
-    setTimeout(hideUI, 1500)
+    setTimeout(() => {
+        hideUI();
+        player.addScore();
+        updateScoreBar();
+    }, 1500)
     setTimeout(moveImages, 2500);
     setTimeout(() => {
         updateAnimeFields();
@@ -286,6 +315,14 @@ function updateUIElements() {
     document.getElementById("nextImage").src = "images/" + nextAnime.getImage();
 }
 
+function updateScoreBar() {
+    // Updates the score bar to what is being stored in the player global variable
+    let score = document.getElementById("score");
+    let highScore = document.getElementById("highScore");
+    score.innerHTML = "Score: " + player.getScore();
+    highScore.innerHTML = "Highscore: " + player.getHighScore();
+}
+
 function onStartClick() {
     // Get the start screen element
     let startScreen = document.getElementById("start");
@@ -344,6 +381,10 @@ function onStartClick() {
     // Set opacity for VS paragraph
     let versus = document.getElementById("versus");
     versus.style.opacity = 1;
+
+    // Create player instance
+    player = new Player(0, 0);
+    updateScoreBar();
 
     
 }
