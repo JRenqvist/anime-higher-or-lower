@@ -245,7 +245,7 @@ function changeMiddleToVS() {
 
 function getNextAnime(rightAnimeTitle, leftAnimeTitle) {
     // Sets nextAnime field to a random anime thats not either of the input titles
-    let tempMap = scoreMap;
+    let tempMap = new Map(scoreMap);
     tempMap.delete(rightAnimeTitle);
     tempMap.delete(leftAnimeTitle);
     
@@ -344,7 +344,6 @@ function showMainGame() {
     // Fade in leftAnime, rightAnime, and middle elements
     for (let i = 0; i < leftAnimeElements.length; i++) {
         leftAnimeElements[i].classList.add("fadeIn");
-        console.log(leftAnimeElements[i]);
         // Remove the fadeIn element after 1 second
         setTimeout(() => {
             leftAnimeElements[i].style.opacity = 1;
@@ -353,7 +352,6 @@ function showMainGame() {
     }
     for (let i = 0; i < rightAnimeElements.length; i++) {
         rightAnimeElements[i].classList.add("fadeIn");
-        console.log(rightAnimeElements[i]);
         // Remove the fadeIn element after 1 second
         setTimeout(() => {
             rightAnimeElements[i].style.opacity = 1;
@@ -442,6 +440,10 @@ function showGameOverScreen() {
             mainScreen[i].style.opacity = 1;
             mainScreen[i].classList.remove("fadeIn");
             createNewGame();
+
+            // Hide the X in the middle
+            changeMiddleToVS();
+
         }, 1000);
     }
 
@@ -486,7 +488,7 @@ function createNewGame() {
     
     // Generate right image    
     // Make new map and remove already picked entry
-    let tempMap = scoreMap;
+    let tempMap = new Map(scoreMap);
     tempMap.delete(leftAnime.getTitle());
 
     // Create right Anime instance
