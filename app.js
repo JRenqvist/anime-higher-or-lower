@@ -245,12 +245,17 @@ function changeMiddleToVS() {
 
 function getNextAnime(rightAnimeTitle, leftAnimeTitle) {
     // Sets nextAnime field to a random anime thats not either of the input titles
-    let tempMap = new Map(scoreMap);
-    tempMap.delete(rightAnimeTitle);
-    tempMap.delete(leftAnimeTitle);
-    
-    let title = getRandomKey(tempMap);
-    nextAnime = new Anime(title, parseFloat(tempMap.get(title)), imageMap.get(title));
+    fetch("https://api.jikan.moe/v4/top/anime?type=tv&page=2&limit=1").then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+    }).then(data => {
+        let title = data.data[0].title_english;
+        let score = parseFloat(data.data[0].score);
+        let image_url = data.data[0].images.jpg.large_image_url;
+        nextAnime = new Anime(title, score, image_url);
+        console.log(nextAnime);
+    })
 }
 
 function hideUI() {
@@ -310,17 +315,17 @@ function updateUIElements() {
     // Set the title, image and score to left anime
     document.getElementById("leftTitle").innerHTML = leftAnime.getTitle();
     document.getElementById("leftScore").innerHTML = leftAnime.getScore();
-    document.getElementById("leftImage").src = "images/" + leftAnime.getImage();
+    document.getElementById("leftImage").src = leftAnime.getImage();
 
     // Set title and image, but not score, to right anime
     document.getElementById("rightTitle").innerHTML = rightAnime.getTitle();
     document.getElementById("rightScore").innerHTML = "???";
-    document.getElementById("rightImage").src = "images/" + rightAnime.getImage();
+    document.getElementById("rightImage").src = rightAnime.getImage();
     document.getElementById("rightDescription1").innerHTML = "has a score thats";
     document.getElementById("rightDescription2").innerHTML = "than " + leftAnime.getTitle();
 
     // Set image to next anime
-    document.getElementById("nextImage").src = "images/" + nextAnime.getImage();
+    document.getElementById("nextImage").src = nextAnime.getImage();
 
     // Update the scoreBar
     updateScoreBar();
@@ -483,20 +488,35 @@ function createNewGame() {
     // Later make API calls in here instead of checking with maps
     // Generate left image
     // Get random entries from maps
-    let title = getRandomKey(scoreMap);
-    leftAnime = new Anime(title, parseFloat(scoreMap.get(title)), imageMap.get(title));
-    
-    // Generate right image    
-    // Make new map and remove already picked entry
-    let tempMap = new Map(scoreMap);
-    tempMap.delete(leftAnime.getTitle());
 
-    // Create right Anime instance
-    title = getRandomKey(tempMap);
-    rightAnime = new Anime(title, parseFloat(tempMap.get(title)), imageMap.get(title));
+    // Randomize page and limit in future
+    fetch("https://api.jikan.moe/v4/top/anime?type=tv&page=1&limit=1").then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+    }).then(data => {
+        let title = data.data[0].title_english;
+        let score = parseFloat(data.data[0].score);
+        let image_url = data.data[0].images.jpg.large_image_url;
+        leftAnime = new Anime(title, score, image_url);
+        console.log(leftAnime);
+    })
+    
+    // Get right anime
+    fetch("https://api.jikan.moe/v4/top/anime?type=tv&page=2&limit=2").then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+    }).then(data => {
+        let title = data.data[0].title_english;
+        let score = parseFloat(data.data[0].score);
+        let image_url = data.data[0].images.jpg.large_image_url;
+        rightAnime = new Anime(title, score, image_url)
+        console.log(rightAnime);
+    });
 
     // Load in the next anime
-    getNextAnime(leftAnime.getTitle(), rightAnime.getTitle());
+    getNextAnime();
 }
 
 
