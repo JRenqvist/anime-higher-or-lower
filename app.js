@@ -321,6 +321,9 @@ function updateUIElements() {
 
     // Set image to next anime
     document.getElementById("nextImage").src = "images/" + nextAnime.getImage();
+
+    // Update the scoreBar
+    updateScoreBar();
 }
 
 function updateScoreBar() {
@@ -331,7 +334,7 @@ function updateScoreBar() {
     highScore.innerHTML = "Highscore: " + player.getHighScore();
 }
 
-function displayMainGame() {
+function showMainGame() {
     // Get elements with class "leftAnime" and "rightAnime"
     let leftAnimeElements = document.getElementsByClassName("leftAnime");
     let rightAnimeElements = document.getElementsByClassName("rightAnime");
@@ -341,6 +344,7 @@ function displayMainGame() {
     // Fade in leftAnime, rightAnime, and middle elements
     for (let i = 0; i < leftAnimeElements.length; i++) {
         leftAnimeElements[i].classList.add("fadeIn");
+        console.log(leftAnimeElements[i]);
         // Remove the fadeIn element after 1 second
         setTimeout(() => {
             leftAnimeElements[i].style.opacity = 1;
@@ -349,6 +353,7 @@ function displayMainGame() {
     }
     for (let i = 0; i < rightAnimeElements.length; i++) {
         rightAnimeElements[i].classList.add("fadeIn");
+        console.log(rightAnimeElements[i]);
         // Remove the fadeIn element after 1 second
         setTimeout(() => {
             rightAnimeElements[i].style.opacity = 1;
@@ -371,6 +376,9 @@ function displayMainGame() {
             scoreBarElements[i].classList.remove("fadeIn");
         }, 1000);
     }
+
+    showInputButtons();
+
 }
 
 function hideMainGame() {
@@ -416,12 +424,15 @@ function hideMainGame() {
 }
 
 function showGameOverScreen() {
+
     // Change the data of the main screen to show the game over
     document.getElementById("mainImage").src = "images/data/gameOverImage.jpg";
     document.getElementById("mainText").innerHTML = "Game over";
     document.getElementById("mainDescription").innerHTML = "Your score: " + player.getScore() + "\nHighscore: " + player.getHighScore();
-    console.log(document.getElementById("mainButton"));
-    document.getElementById("mainButton").value = "Play again";
+
+    var button = document.getElementById("mainButton");        
+    var span = button.getElementsByTagName("span")[0];
+    span.textContent = "Try again";
 
     let mainScreen = document.getElementsByClassName("mainScreen");
     for (let i = 0; i < mainScreen.length; i++) {
@@ -430,11 +441,18 @@ function showGameOverScreen() {
         setTimeout(() => {
             mainScreen[i].style.opacity = 1;
             mainScreen[i].classList.remove("fadeIn");
+            createNewGame();
         }, 1000);
     }
+
+    // Reset score
+    player.resetScore();
+
 }
 
 function onStartClick() {
+    updateUIElements();
+
     // Get the start screen element
     let mainScreen = document.getElementById("main");
 
@@ -446,7 +464,7 @@ function onStartClick() {
         mainScreen.classList.remove("fadeOut");
     }, 1000);
 
-    displayMainGame();
+    showMainGame();
 
     // Set point paragraph for right anime opacity to 0
     document.getElementById("rightScore").style.opacity = 0;
@@ -455,22 +473,12 @@ function onStartClick() {
     let versus = document.getElementById("versus");
     versus.style.opacity = 1;
 
-    // Create player instance
-    player = new Player(0, 0);
+    
     
 }
 
-
-// returns random key from Set or Map
-function getRandomKey(collection) {
-    let keys = Array.from(collection.keys());
-    return keys[Math.floor(Math.random() * keys.length)];
-}
-
-document.addEventListener('DOMContentLoaded', (event) => {
-    // Gets called when the page gets loaded
-    loadMap();
-
+function createNewGame() {
+    // Later make API calls in here instead of checking with maps
     // Generate left image
     // Get random entries from maps
     let title = getRandomKey(scoreMap);
@@ -487,6 +495,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Load in the next anime
     getNextAnime(leftAnime.getTitle(), rightAnime.getTitle());
+}
 
-    updateUIElements();
+
+// returns random key from Set or Map
+function getRandomKey(collection) {
+    let keys = Array.from(collection.keys());
+    return keys[Math.floor(Math.random() * keys.length)];
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Gets called when the page gets loaded
+    loadMap();
+
+    createNewGame();
+
+    // Create player instance
+    player = new Player(0, 0);
 });
