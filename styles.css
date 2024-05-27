@@ -192,6 +192,7 @@ animation: moveResetNext 0s backwards;
     padding: 5px;
     border-radius: 10px;
     text-shadow: 3px 3px #000;
+    text-align: center;
 }
 
 #leftTitle, #rightTitle {

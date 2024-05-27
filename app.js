@@ -117,6 +117,8 @@ function guessedCorrectly() {
     changeRightAnimeDescription();
     changeMiddleToCheckmark();
 
+    document.getElementById("nextImage").src = nextAnime.getImage();
+
     setTimeout(() => {
         hideUI();
         player.addScore();
@@ -243,9 +245,10 @@ function changeMiddleToVS() {
     versus.classList.add("expand");
 }
 
-function getNextAnime(rightAnimeTitle, leftAnimeTitle) {
+function getNextAnime() {
     // Sets nextAnime field to a random anime thats not either of the input titles
-    fetch("https://api.jikan.moe/v4/top/anime?type=tv&page=2&limit=1").then(response => {
+    let randomNum = getRandomInt(1, 201);
+    fetch("https://api.jikan.moe/v4/top/anime?type=tv&page=" + randomNum + "&limit=1").then(response => {
         if (response.ok) {
             return response.json();
         }
@@ -254,7 +257,6 @@ function getNextAnime(rightAnimeTitle, leftAnimeTitle) {
         let score = parseFloat(data.data[0].score);
         let image_url = data.data[0].images.jpg.large_image_url;
         nextAnime = new Anime(title, score, image_url);
-        console.log(nextAnime);
     })
 }
 
@@ -490,20 +492,25 @@ function createNewGame() {
     // Get random entries from maps
 
     // Randomize page and limit in future
-    fetch("https://api.jikan.moe/v4/top/anime?type=tv&page=1&limit=1").then(response => {
+    let randomNum = getRandomInt(1, 201);
+    fetch("https://api.jikan.moe/v4/top/anime?type=tv&page=" + randomNum + "&limit=1").then(response => {
         if (response.ok) {
             return response.json();
         }
     }).then(data => {
         let title = data.data[0].title_english;
+        // Check if english title is null, then use standard title
+        if (title == null) {
+            title = data.data[0].title;
+        }
         let score = parseFloat(data.data[0].score);
         let image_url = data.data[0].images.jpg.large_image_url;
         leftAnime = new Anime(title, score, image_url);
-        console.log(leftAnime);
     })
     
     // Get right anime
-    fetch("https://api.jikan.moe/v4/top/anime?type=tv&page=2&limit=2").then(response => {
+    randomNum = getRandomInt(1, 201);
+    fetch("https://api.jikan.moe/v4/top/anime?type=tv&page=" + randomNum + "&limit=2").then(response => {
         if (response.ok) {
             return response.json();
         }
@@ -512,13 +519,17 @@ function createNewGame() {
         let score = parseFloat(data.data[0].score);
         let image_url = data.data[0].images.jpg.large_image_url;
         rightAnime = new Anime(title, score, image_url)
-        console.log(rightAnime);
     });
 
     // Load in the next anime
     getNextAnime();
 }
 
+function getRandomInt(min, max) {
+    const minCeiled = Math.ceil(min);
+    const maxFloored = Math.floor(max);
+    return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
+  }
 
 // returns random key from Set or Map
 function getRandomKey(collection) {
