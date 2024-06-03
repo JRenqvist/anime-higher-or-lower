@@ -11,7 +11,17 @@
         <img id="mainImage" src="images/data/startScreenImage.jpg">
         <h1 id="mainText">Welcome to anime higher or lower</h1>
         <p id="mainDescription">You will be given two animes and you must guess which one has a higher score according to MyAnimeList</p>
-        <button class="mainButton" id="mainButton" onclick="onStartClick()"><span>Start</span></button>
+        <button id="mainButton" onclick="onStartClick()"><span>Start</span></button>
+        <button id="optionsButton" onclick="onOptionsClick()"><span>Options</span></button>
+        <div class="optionsMenu" id="optionsMenu">
+            <div class="optionItems">
+                <input type="checkbox" id="testBox" name="textBox" value="test">
+                <label for="testBox">Test</label>
+            </div>
+            
+
+            <input type="submit" value="Save">
+        </div>
     </div>
     <div id="wrap">
         <div class="leftAnime" id="leftAnime">
